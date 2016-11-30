@@ -16,7 +16,6 @@ public class DataMain {
 		
 		
 		Circle circle = dao.getCircle(1);
-		
 		System.out.println(circle.getName());
 		
 
