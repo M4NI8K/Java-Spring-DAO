@@ -2,6 +2,13 @@ package com.michalak.model;
 
 public class Circle {
 
+	public Circle(int circleId, String name) {
+		setName(name);
+		setId(circleId);
+	}	
+	
+
+	
 	private int id;
 	private String name;
 
@@ -20,9 +27,6 @@ public class Circle {
 
 	
 	
-	public Circle(int circleId, String name) {
-		setName(name);
-		setId(circleId);
-	}
+
 
 }

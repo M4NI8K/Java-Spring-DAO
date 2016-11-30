@@ -23,8 +23,8 @@ public class JdbcDaoImpl {	//STANDARD DAO
 		Connection conn = null;
 		try {
 			String driver = "org.apache.derby.jdbc.ClientDriver";
-			Class.forName(driver).newInstance(); // Driver initialization
-			conn = DriverManager.getConnection("jdbc:derby://localhost:1527//db"); // connection
+			Class.forName(driver).newInstance(); 												// Driver initialization
+			conn = DriverManager.getConnection("jdbc:derby://localhost:1527//db"); 				// connection
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM circle where id = ?"); // PreparedStatement
 																								// with
 																								// query
