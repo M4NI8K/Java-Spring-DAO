@@ -6,19 +6,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
-		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -34,7 +24,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="F:/dbDerby10.13.1.1/lib/derby.jar"/>
 	<classpathentry kind="lib" path="F:/dbDerby10.13.1.1/lib/derbyclient.jar"/>
-	<classpathentry kind="lib" path="F:/JavaLibs/commons-pool2-2.4.2-bin.zip"/>
-	<classpathentry kind="lib" path="F:/JavaLibs/commons-dbcp2-2.1.1-bin.zip"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

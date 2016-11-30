@@ -15,13 +15,15 @@ public class DataMain {
 		JdbcDaoImpl dao = ctx.getBean("jdbcDaoImpl", JdbcDaoImpl.class); // make shore jdbcDaoImpl is LOWERCASE 
 		
 		
-		Circle circle = dao.getCircle(1);
+	//	Circle circle = dao.getCircle(1);
 		
-		System.out.println(circle.getName());
-	// use of JdbcTemplate	
+	//	System.out.println(circle.getName());
+	// use of JdbcTemplate	type int
 		System.out.println(dao.getCircleCount());
-	}
 	
+		System.out.println(dao.getCircleName(1));
+		 
+	}
 	
 	
 }

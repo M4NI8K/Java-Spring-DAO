@@ -21,32 +21,41 @@ import com.michalak.model.Circle;
 
 @Component // this class gets automatically created because of <context:component-scan 
 public class JdbcDaoImpl {	//STANDARD DAO
-
-	@Autowired //From spring.xml dataSource is created and passed to this object ***DRIVER MENAGMENT***
-	private DataSource datasource;	
+// **Object Varibles**
+	//@Autowired //From spring.xml dataSource is created and passed to this object ***DRIVER MENAGMENT***
+	private DataSource dataSource;	
+	//private JdbcTemplate jdbcTemplate = new JdbcTemplate() ;//
+	private JdbcTemplate jdbcTemplate; 
 	
-	public DataSource getDatasource() {
-		return datasource;}
-	public void setDatasource(DataSource datasource) {
-		this.jdbcTemplate.setDataSource(datasource);	// JDBC INITIALIZATION initialisation in setDATASOURCE
-		this.datasource = datasource;
+//SETTERS AND GETTERS	
+//***dataSource Autowired on setter to automatically when spring.xml dataSource	initialize with itself jdbcTemplate ****
+	public DataSource getDataSource() {
+		return dataSource;}
+	@Autowired //From spring.xml dataSource is created and passed to this object ***DRIVER MENAGMENT***
+	public void setDataSource(DataSource dataSource) {
+		this.jdbcTemplate =new JdbcTemplate(dataSource) ;	// JDBC INITIALIZATION initialisation in setDATASOURCE
+		this.dataSource = dataSource;
 		}
 
 	
 	
-	//private JdbcTemplate jdbcTemplate = new JdbcTemplate() ;//
-	private JdbcTemplate jdbcTemplate; 
-	
+ 
+//METHOD1 passes sql String and return type to jdbcTemplate.queryForObject 
 	public int getCircleCount(){
 		String sql = "Select COUNT(*) FROM circle";
 	//	jdbcTemplate.setDataSource(getDatasource()); 	// JDBC INITIALIZATION initialisation in setDATASOURCE 
-		return jdbcTemplate.queryForObject(sql, Integer.class); // jdbcTemplate.queryforint() depricated
-
+		return jdbcTemplate.queryForObject(sql,new Object[]{}, Integer.class); // jdbcTemplate.queryforint() depricated
 	}
+//METHOD2 as above + Object array(new Object[]{circleId}{circleId} with circleId parameter = ? from sql Sting )
+	public String getCircleName(int circleId) {
+		String sql = "SELECT name FROM circle WHERE id = ?";			
+		return jdbcTemplate.queryForObject(sql,new Object[]{circleId}, String.class);
+	}
+//METHOD3	
 	
 	
 	
-	
+/*	***NO NEED FOR BELOV CODE ANYMORE ***
 	public Circle getCircle(int circleId) {
 
 		Connection conn = null;
@@ -84,7 +93,9 @@ public class JdbcDaoImpl {	//STANDARD DAO
 				e.printStackTrace();
 			}
 		}
-
 	}
+	
+*/
+	
 
 }
