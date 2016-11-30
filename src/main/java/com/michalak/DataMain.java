@@ -16,9 +16,10 @@ public class DataMain {
 		
 		
 		Circle circle = dao.getCircle(1);
-		System.out.println(circle.getName());
 		
-
+		System.out.println(circle.getName());
+	// use of JdbcTemplate	
+		System.out.println(dao.getCircleCount());
 	}
 	
 	

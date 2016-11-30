@@ -15,14 +15,14 @@
 <!-- Scans for annotations -->	 
 	 <context:component-scan base-package="com.michalak"></context:component-scan>
 
-
-<!-- Instead of data Main STEP1 its managing JDBC Driver  -->
- 	<!--<bean id ="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
- 			<property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"></property>
- 			<property name="url" value="jdbc:derby://localhost:1527//db;create=true;"></property>
- 		</bean>-->
+<!-- STEP1  -->
+		<!-- Instead of data Main STEP1 its managing JDBC Driver  -->
+	 		<!--<bean id ="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	 			<property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"></property>
+	 			<property name="url" value="jdbc:derby://localhost:1527//db;create=true;"></property>
+	 		</bean>-->
  		
-<!-- Instead of data Main STEP1 and above org.apache.commons.dbcp.BasicDataSource contains pooling--> 		
+	<!-- Instead of data Main STEP1 and above org.apache.commons.dbcp.BasicDataSource contains pooling--> 		
  		<bean id ="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
  			<property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"></property>
  			<property name="url" value="jdbc:derby://localhost:1527//db;create=true;"></property>

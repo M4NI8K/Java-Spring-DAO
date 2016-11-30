@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.michalak.model.Circle;
@@ -21,37 +22,49 @@ import com.michalak.model.Circle;
 @Component // this class gets automatically created because of <context:component-scan 
 public class JdbcDaoImpl {	//STANDARD DAO
 
-	@Autowired //From spring.xml dataSource is created and passed to this object
-	private DataSource datasource;
+	@Autowired //From spring.xml dataSource is created and passed to this object ***DRIVER MENAGMENT***
+	private DataSource datasource;	
 	
 	public DataSource getDatasource() {
-		return datasource;
-	}
+		return datasource;}
 	public void setDatasource(DataSource datasource) {
+		this.jdbcTemplate.setDataSource(datasource);	// JDBC INITIALIZATION initialisation in setDATASOURCE
 		this.datasource = datasource;
-	}
+		}
 
+	
+	
+	//private JdbcTemplate jdbcTemplate = new JdbcTemplate() ;//
+	private JdbcTemplate jdbcTemplate; 
+	
+	public int getCircleCount(){
+		String sql = "Select COUNT(*) FROM circle";
+	//	jdbcTemplate.setDataSource(getDatasource()); 	// JDBC INITIALIZATION initialisation in setDATASOURCE 
+		return jdbcTemplate.queryForObject(sql, Integer.class); // jdbcTemplate.queryforint() depricated
+
+	}
+	
+	
+	
+	
 	public Circle getCircle(int circleId) {
 
-		
-		
-		
 		Connection conn = null;
 		try {
-//STEP1 Connection to database Always Same	
+//STEP1 Connection to database Always Same	***DRIVER***
 		//	String driver = "org.apache.derby.jdbc.ClientDriver";
 		//	Class.forName(driver).newInstance(); 												// Driver initialisation
 		//	conn = DriverManager.getConnection("jdbc:derby://localhost:1527//db"); 				// connection
 			
 		conn = datasource.getConnection();	//above code replace to this by bean in=dataSource in spring.xml
 			
-//STEP2 PreparedStatement based on query	
+//STEP2 PreparedStatement based on query	***RE EXECUTION***
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM circle where id = ?"); // PreparedStatement
 			ps.setInt(1, circleId);
-//STEP3 Execiuting the query
+//STEP3 Execiuting the query                ***EXECUTION***
 			Circle circle = null;
 			ResultSet rs = ps.executeQuery();
-//STEP4 Parsing thru result set	
+//STEP4 Parsing thru result set				***POST EXECUTION***
 			if (rs.next()) {
 				circle = new Circle(circleId, rs.getString("name"));
 
