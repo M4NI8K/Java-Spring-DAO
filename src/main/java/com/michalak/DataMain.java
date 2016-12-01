@@ -24,7 +24,7 @@ public class DataMain {
 	
 	//	System.out.println(dao.getCircleName(1));
 		 
-		
+		dao.insertCircle(new Circle(2,"Second circle"));// Adds record
 		
 	System.out.println(dao.getAllCircles().size());	//Getting list size from METHOD4
 		

@@ -42,7 +42,7 @@ public class JdbcDaoImpl {	//STANDARD DAO
 		}
 
 	
-	
+//***FETCH METHODS***	
  
 //METHOD1 passes sql String and return type to jdbcTemplate.queryForObject 
 	public int getCircleCount(){
@@ -62,7 +62,7 @@ public class JdbcDaoImpl {	//STANDARD DAO
 		return jdbcTemplate.queryForObject(sql,new Object[]{circleId}, new CircleMapper());
 	}
 	
-//METHOD4	Returning LIST of Unique Objects
+//METHOD4	Returning LIST of Unique(SQL) Objects
 	public List<Circle> getAllCircles(){
 		String sql = "SELECT * FROM circle";
 		return jdbcTemplate.query(sql, new CircleMapper());
@@ -81,14 +81,19 @@ public class JdbcDaoImpl {	//STANDARD DAO
 			circle.setName(resultSet.getString("name"));	//sets string name
 			return circle;
 		}//org.springframework.jdbc.core.RowMapper;
-
-	
-		
-		
-	 
-		
 	}
 	
+//UPDATE METHODS	
+	public void insertCircle(Circle circle){
+		String sql = "INSERT INTO circle(id, name)VALUES (?,?)";
+		jdbcTemplate.update(sql,new Object[] {circle.getId(), circle.getName()});
+		
+	}
+//CREATE BABLE METHOD	
+	public void createTriangleTable (){
+		String sql ="CREATE TABLE triangle (id INTIGER, name VARCHAR(50))";
+		jdbcTemplate.execute(sql);	
+	}
 	
 	
 	
