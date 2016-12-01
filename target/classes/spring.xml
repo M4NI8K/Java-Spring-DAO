@@ -15,7 +15,9 @@
 <!-- Scans for annotations @Component-->	 
 	 <context:component-scan base-package="com.michalak"></context:component-scan>
 		<!-- 
-		JdbcDaoImpl Auto Created + dataSource autowired to it with @Autowire on setter  
+		-JdbcDaoImpl Auto Created + dataSource autowired to it with @Autowire on setter  
+		-HibernateDaoImpl  Auto Created with @Repository dataSource autowired to Private dataSource Varible 
+		
 		-->
 
   
@@ -23,7 +25,7 @@
 
 
 <!-- STEP1  -->
-		<!-- Instead of data Main STEP1 its managing JDBC Driver  -->
+		<!-- Instead of data Main STEP1 its managing JDBC Driver  / DriverManagerDataSource NOT DOOG NOT DATA POOLING -->
 	 		<!--<bean id ="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	 			<property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"></property>
 	 			<property name="url" value="jdbc:derby://localhost:1527//db;create=true;"></property>
@@ -36,11 +38,27 @@
  			<property name="initialSize" value="2"></property>
  			<property name="maxActive" value="5"></property>
  		</bean>
+
  <!-- STEP1  -->		
  		<bean id="jdbcTemplateImpl" class="com.michalak.dao.JdbcTemplateImpl" >
  			<property name="dataSource" ref="dataSource"></property>		
  		</bean>
  		
  		
+ <!-- Instead of hibernate.xml configuration file   -->		
+ 		<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+ 			<property name="dataSource" ref="dataSource"></property> <!-- managing JDBC Driver and connection  -->
+ 			<property name="packagesToScan" value="com.michalak.model"></property> <!-- Scans package to search 4 hibernate @Annotations  -->
+ 			
+ 			<property name="hibernateProperties">   <!-- other properties  -->
+ 				
+ 					<value>
+               			 hibernate.dialect=org.hibernate.dialect.DerbyDialect
+            		</value>
+ 				
+ 			</property> 			
+ 			
+ <!-- ***After setting above session factory annotate object  -->			
+ 		</bean>
  		
 </beans>

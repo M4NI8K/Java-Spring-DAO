@@ -1,17 +1,12 @@
 package com.michalak.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Circle {
-
-	public Circle() {}
 	
-	
-	public Circle(int circleId, String name) {
-		setName(name);
-		setId(circleId);
-	}	
-	
-
-	
+	@Id
 	private int id;
 	private String name;
 
@@ -29,7 +24,12 @@ public class Circle {
 	}
 
 	
-	
+	public Circle(){}
+		
+	public Circle(int circleId, String name) {
+		setName(name);
+		setId(circleId);
+	}
 
 
 }
