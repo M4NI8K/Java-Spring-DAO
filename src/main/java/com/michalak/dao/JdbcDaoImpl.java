@@ -5,11 +5,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
+import javax.swing.tree.TreePath;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.michalak.model.Circle;
@@ -51,11 +55,45 @@ public class JdbcDaoImpl {	//STANDARD DAO
 		String sql = "SELECT name FROM circle WHERE id = ?";			
 		return jdbcTemplate.queryForObject(sql,new Object[]{circleId}, String.class);
 	}
-//METHOD3	
+//METHOD3	Returning Unique Object
+	
+	public Circle getCircleForId(int circleId)	{
+		String sql = "SELECT * FROM circle WHERE id = ?";
+		return jdbcTemplate.queryForObject(sql,new Object[]{circleId}, new CircleMapper());
+	}
+	
+//METHOD4	Returning LIST of Unique Objects
+	public List<Circle> getAllCircles(){
+		String sql = "SELECT * FROM circle";
+		return jdbcTemplate.query(sql, new CircleMapper());
+	}
+	
+// INNER CLASS CircleMapper
+	private static final class CircleMapper implements RowMapper<Circle> {
+
+		//Returns type Circle defined by implements RowMapper<Circle> 
+		//below mapRow method will be as many times as method sql string suggests 
+		public Circle mapRow(ResultSet resultSet, int rowNum) throws SQLException { 
+			//Above ResultSet resultSet stays the same and int rowNum increase 
+			 
+			Circle circle = new Circle(); 
+			circle.setId(resultSet.getInt("id")); 			//sets int id
+			circle.setName(resultSet.getString("name"));	//sets string name
+			return circle;
+		}//org.springframework.jdbc.core.RowMapper;
+
+	
+		
+		
+	 
+		
+	}
 	
 	
 	
-/*	***NO NEED FOR BELOV CODE ANYMORE ***
+	
+	
+/*	***NO NEED FOR below CODE ANYMORE ***
 	public Circle getCircle(int circleId) {
 
 		Connection conn = null;

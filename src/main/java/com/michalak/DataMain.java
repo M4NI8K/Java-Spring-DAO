@@ -19,10 +19,15 @@ public class DataMain {
 		
 	//	System.out.println(circle.getName());
 	// use of JdbcTemplate	type int
-		System.out.println(dao.getCircleCount());
 	
-		System.out.println(dao.getCircleName(1));
+		//System.out.println(dao.getCircleCount());
+	
+	//	System.out.println(dao.getCircleName(1));
 		 
+		
+		
+	System.out.println(dao.getAllCircles().size());	//Getting list size from METHOD4
+		
 	}
 	
 	
