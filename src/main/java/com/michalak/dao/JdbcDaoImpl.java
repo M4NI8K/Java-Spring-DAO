@@ -14,6 +14,9 @@ import javax.swing.tree.TreePath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
 import com.michalak.model.Circle;
@@ -25,19 +28,26 @@ import com.michalak.model.Circle;
 
 @Component // this class gets automatically created because of <context:component-scan 
 public class JdbcDaoImpl {	//STANDARD DAO
-// **Object Varibles**
+// **Varibles**
 	//@Autowired //From spring.xml dataSource is created and passed to this object ***DRIVER MENAGMENT***
 	private DataSource dataSource;	
-	//private JdbcTemplate jdbcTemplate = new JdbcTemplate() ;//
+		//not in use: private JdbcTemplate jdbcTemplate = new JdbcTemplate() ;// Initialised with DATASOURCE 
+	//JdbcTemplate USED FOR PUSHING AND PULING SQL WITH USE OF dataSource(BD Connection tool) uses "?" for queers 
 	private JdbcTemplate jdbcTemplate; 
+	//LIKE JdbcTemplate but uses ":id" NAMED PARAMETERS not "?" Markers
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate; // SQL WITH PARAMETERS INSTEAD ?
+	
+// not available	private SimpleJdbcTemplate simpleJdbcTemplate; 
+	
 	
 //SETTERS AND GETTERS	
-//***dataSource Autowired on setter to automatically when spring.xml dataSource	initialize with itself jdbcTemplate ****
+//***dataSource Autowired on setter to automatically when spring.xml dataSource	initialise with itself jdbcTemplate ****
 	public DataSource getDataSource() {
 		return dataSource;}
 	@Autowired //From spring.xml dataSource is created and passed to this object ***DRIVER MENAGMENT***
 	public void setDataSource(DataSource dataSource) {
 		this.jdbcTemplate =new JdbcTemplate(dataSource) ;	// JDBC INITIALIZATION initialisation in setDATASOURCE
+		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource) ;
 		this.dataSource = dataSource;
 		}
 
@@ -83,12 +93,24 @@ public class JdbcDaoImpl {	//STANDARD DAO
 		}//org.springframework.jdbc.core.RowMapper;
 	}
 	
-//UPDATE METHODS	
+//UPDATE/INSERT METHODS	
+//METHOD1 USING	"?" MARKERS
 	public void insertCircle(Circle circle){
 		String sql = "INSERT INTO circle(id, name)VALUES (?,?)";
 		jdbcTemplate.update(sql,new Object[] {circle.getId(), circle.getName()});
-		
 	}
+		
+//METHOD2 USING ":id" NAMED PARAMETERS	
+	public void insertCircle2(Circle circle){
+		String sql = "INSERT INTO circle(id, name) VALUES (:id,:name)";		
+		//SqlParameterSource class that uses MapSqlParameterSource to define Parameter and its source
+		SqlParameterSource namedParameters = new MapSqlParameterSource("id", circle.getId()) 
+															.addValue("name", circle.getName()); // .addValue ads another parameter
+		namedParameterJdbcTemplate.update(sql, namedParameters);
+	}
+	
+	
+	
 //CREATE BABLE METHOD	
 	public void createTriangleTable (){
 		String sql ="CREATE TABLE triangle (id INTIGER, name VARCHAR(50))";
